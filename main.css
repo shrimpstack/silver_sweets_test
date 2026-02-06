@@ -2,9 +2,11 @@ body {
   margin: 0;
   display: grid;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow: hidden auto;
   transition: background 1s;
+  padding: 24px 0;
+  box-sizing: border-box;
 }
 #card {
   margin: auto;
