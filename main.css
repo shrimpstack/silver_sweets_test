@@ -1,0 +1,363 @@
+body {
+  margin: 0;
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  transition: background 1s;
+}
+#card {
+  margin: auto;
+  width: min(calc(100% - 16px), 680px);
+  box-sizing: border-box;
+  transition: 1s;
+  transition-property: background, border;
+  border-radius: 4px;
+}
+[page].hidden {
+  display: none;
+}
+
+/* ================================ */
+/*  頁面造型 - 開始                 */
+/* ================================ */
+[type="start"] {
+  background: #d9dfdf;
+}
+[type="start"] #card {
+  background:
+    linear-gradient(to right, #fff max(200px, 40%), #0000),
+    url(./title.png) no-repeat 140% 100% / auto 480px,
+    #fafafa;
+  padding: 24px;
+  border-left: 4px solid #7a9292;
+  padding: 60px 80px 60px 50px;
+  box-shadow: 30px 30px 60px #0000000d;
+  outline: 1px solid #4a5a5a1a;
+  outline-offset: -20px;
+}
+@media (max-width: 768px) {
+  [type="start"] #card {
+    background: #fafafa;
+    padding: 32px 24px;
+    outline-offset: -14px;
+  }
+}
+
+/* ================================ */
+/*  開始頁面                        */
+/* ================================ */
+[page="start"] .title {
+  font-family: "Georgia", serif;
+  font-size: 42px;
+  color: #4a5a5a;
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+[page="start"] .subtitle {
+  font-size: 14px;
+  color: #7a9292;
+  letter-spacing: 5px;
+  margin: 15px 0 40px 0;
+  display: block;
+  font-weight: bold;
+}
+[page="start"] .text {
+  font-size: 15px;
+  color: #4a5a5a;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  padding-left: 24px;
+  opacity: 0.8;
+}
+@media (max-width: 768px) {
+  [page="start"] .title {
+    font-size: 28px;
+  }
+  [page="start"] .subtitle {
+    margin-bottom: 32px;
+  }
+  [page="start"] .text {
+    margin-bottom: 24px;
+    padding-left: 8px;
+  }
+}
+#start_btn {
+  all: unset;
+  color: #4a5a5a;
+  font-size: 18px;
+  letter-spacing: 8px;
+  padding: 0 48px 8px;
+  cursor: pointer;
+  position: relative;
+}
+#start_btn:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 1px;
+  background: currentColor;
+  transition: all 0.3s;
+}
+#start_btn:hover:after {
+  left: 0%;
+  width: 100%;
+}
+
+/* ================================ */
+/*  頁面造型 - 題目                 */
+/* ================================ */
+[type^="que"] #card {
+  padding: 40px 40px 20px;
+  max-width: 580px;
+}
+@media (max-width: 768px) {
+  [type^="que"] #card {
+    padding: 30px 20px 10px 20px;
+  }
+}
+
+/* ================================ */
+/*  頁面造型 - 題目A                */
+/* ================================ */
+[type="que_a"] {
+  background: #f2e9e1;
+}
+[type="que_a"] #card {
+  background: #fffdfa;
+  box-shadow: 30px 30px 60px #0000000d;
+  border: 1px solid #0000;
+}
+[type="que_a"] [page="que_card"] .num_bar {
+  color: #a68b7c;
+}
+[type="que_a"] [page="que_card"] .que_box {
+  background: #fff;
+  border-color: #efe5de;
+  color: #6b5a50;
+  outline-color: #d1c4bc;
+}
+[type="que_a"] [page="que_card"] .que_box:after {
+  background: #a68b7c;
+  color: #fff;
+}
+[type="que_a"] [page="que_card"] .opts button {
+  background: #fff;
+  border-color: #d1c4bc;
+  color: #6b5a50;
+}
+[type="que_a"] [page="que_card"] .opts button:hover {
+  background-color: #efe5de;
+  border-color: #a68b7c;
+}
+[type="que_a"] [page="que_card"] .opts button:before {
+  background-color: #a68b7c;
+  opacity: .5;
+}
+[type="que_a"] [page="que_card"] .bottom {
+  color: #a68b7c;
+  opacity: 0.7;
+}
+
+/* ================================ */
+/*  頁面造型 - 題目B                */
+/* ================================ */
+[type="que_b"] {
+  background: #2a2a2e;
+}
+[type="que_b"] #card {
+  background: #1c1c1f;
+  box-shadow: 0 10px 50px #000000b3;
+  border: 1px solid #922b2b;
+}
+[type="que_b"] [page="que_card"] .num_bar {
+  color: #b0b0b0;
+}
+[type="que_b"] [page="que_card"] .que_box {
+  background: #1c1c1f;
+  border-color: #922b2b;
+  color: #e0e0e0;
+  outline-color: #6b6b70;
+  box-shadow: inset 0 0 15px #922b2b;
+}
+[type="que_b"] [page="que_card"] .que_box:after {
+  background: #922b2b;
+  color: #fff;
+  box-shadow: 0 2px 10px #922b2b;
+}
+[type="que_b"] [page="que_card"] .opts button {
+  background: #232326;
+  border-color: #4a4a4f;
+  color: #e0e0e0;
+  box-shadow: 0 2px 8px #0006;
+}
+[type="que_b"] [page="que_card"] .opts button:hover {
+  background-color: #3a3a3d;
+  border-color: #922b2b;
+}
+[type="que_b"] [page="que_card"] .opts button:before {
+  background-color: #922b2b;
+  opacity: 0.8;
+  box-shadow: 0 0 5px #922b2b;
+}
+[type="que_b"] [page="que_card"] .bottom {
+  color: #b0b0b0;
+  opacity: 0.7;
+}
+
+/* ================================ */
+/*  題目                            */
+/* ================================ */
+[page="que_card"] {
+  font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", serif;
+}
+/* 上框 */
+[page="que_card"] .num_bar {
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-align: right;
+  font-weight: bold;
+}
+[page="que_card"] .que_box {
+  border: 8px solid;
+  padding: 46px 36px;
+  margin-bottom: 36px;
+  position: relative;
+  min-height: 120px;
+  outline: 2px dashed;
+  outline-offset: -24px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+[page="que_card"] .que_box:after {
+  content: "SCENARIO";
+  position: absolute;
+  top: -18px;
+  left: 20px;
+
+  padding: 4px 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+@media (max-width: 768px) {
+  [page="que_card"] .num_bar {
+    margin-bottom: 6px;
+  }
+  [page="que_card"] .que_box {
+    border-width: 4px;
+    padding: 32px 24px;
+    outline-offset: -12px;
+    font-size: 18px;
+    min-height: 80px;
+  }
+}
+/* 選項 */
+[page="que_card"] .opts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+[page="que_card"] .opts button {
+  all: unset;
+  border: 1px solid;
+  padding: 18px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+[page="que_card"] .opts button:hover {
+  transform: translateX(5px);
+}
+[page="que_card"] .opts button:before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  margin-right: 12px;
+}
+@media (max-width: 768px) {
+  [page="que_card"] .opts button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+/* 底部 */
+[page="que_card"] .bottom {
+  text-align: center;
+  font-size: 11px;
+  margin-top: 50px;
+  letter-spacing: 3px;
+}
+@media (max-width: 768px) {
+  [page="que_card"] .bottom {
+    margin-top: 32px;
+  }
+}
+
+/* ================================ */
+/*  頁面造型 - 結果                 */
+/* ================================ */
+[type="result"] {
+  background: #bbafa5;
+}
+[type="result"] #card {
+  overflow: hidden auto;
+  height: 90vh;
+  padding: 24px;
+  scrollbar-color: #e0d7d0 #0000;
+}
+[page="result"] .title {
+  color: #efecea;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+[page="result"] #result_img {
+  width: 100%;
+  border-radius: 4px;
+}
+#retry_btn, #story_world {
+  all: unset;
+  display: block;
+  cursor: pointer;
+  margin: 24px auto;
+  color: #efecea;
+  font-size: 18px;
+  padding: 0 48px 8px;
+  position: relative;
+  letter-spacing: 8px;
+  width: max-content;
+}
+#retry_btn:after, #story_world:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 1px;
+  background: currentColor;
+  transition: all 0.3s;
+}
+#retry_btn:hover:after, #story_world:hover:after {
+  left: 0%;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  [type="result"] #card {
+    padding: 0;
+    scrollbar-color: #0000 #0000;
+  }
+}

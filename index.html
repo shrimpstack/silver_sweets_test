@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="./main.css"/>
+    <script src="./universal.js"></script>
+    <script src="./main.js"></script>
+    <script src="./que.js"></script>
+    <script src="./result.js"></script>
+  </head>
+  <body type="start">
+    <div id="card">
+      <div page="start" class="">
+        <div class="title">Silver and Sweets</div>
+        <div class="subtitle">銀器與甜點 · 體質測驗</div>
+        <div class="text">
+          銀器的冷冽是為了守護還是掠奪？<br/>
+          甜點的濃郁是為了治癒還是誘惑？
+        </div>
+        <div class="text">
+          <b>精緻的下午茶，餐桌邊的獵與被獵</b><br/>
+          測出你在這場午茶中，坐的是哪一把椅子
+        </div>
+        <button id="start_btn">入座</button>
+      </div>
+      <div page="que_card" class="hidden">
+        <div class="num_bar">QUESTION 01 / 05</div>
+        <div class="que_box">在安靜的午後，走進一間飄著茶香的舊書店，你會先注意到什麼？</div>
+        <div class="opts">
+          <button>書架上整齊排列的精裝書脊</button>
+          <button>角落裡正在翻閱筆記的陌生人</button>
+          <button>空氣中混合著紙張與肉桂的香氣</button>
+          <button>窗邊灑落下來的溫暖陽光</button>
+        </div>
+        <div class="bottom">SILVER & SWEETS</div>
+      </div>
+      <div page="result" class="hidden">
+        <div class="title">你的測驗結果是：</div>
+        <img id="result_img" src="./result_imgs/跳跳糖.png"/>
+        <button id="retry_btn">再測一次</button>
+        <a id="story_world" target="_blank" href="https://paste.plurk.com/show/w1ZvobdmDmipx443zlcH/">世界觀</a>
+      </div>
+    </div>
+  </body>
+</html>
