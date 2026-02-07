@@ -108,6 +108,20 @@ body {
   left: 0%;
   width: 100%;
 }
+[page="start"] .story_world {
+  display: unset;
+  color: #4a5a5a;
+}
+@media (max-width: 360px) {
+  #start_btn, [page="start"] .story_world {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 24px 8px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
 
 /* ================================ */
 /*  頁面造型 - 題目                 */
@@ -331,7 +345,7 @@ body {
   width: 100%;
   border-radius: 4px;
 }
-#retry_btn, #story_world {
+#retry_btn, .story_world {
   all: unset;
   display: block;
   cursor: pointer;
@@ -343,7 +357,7 @@ body {
   letter-spacing: 8px;
   width: max-content;
 }
-#retry_btn:after, #story_world:after {
+#retry_btn:after, .story_world:after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -353,7 +367,7 @@ body {
   background: currentColor;
   transition: all 0.3s;
 }
-#retry_btn:hover:after, #story_world:hover:after {
+#retry_btn:hover:after, .story_world:hover:after {
   left: 0%;
   width: 100%;
 }
