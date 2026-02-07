@@ -12,6 +12,7 @@ function to_page(page_name, type) {
   }
 }
 
+const select_history = [];
 const total_score = {
   一般: 0, 甜點: 0, 銀器: 0,
   精神: 0, 心情: 0, 身體: 0,
@@ -23,9 +24,11 @@ function start() {
   clearTimeout(timeout);
   timeout = null;
   for(let key in total_score) total_score[key] = 0;
+  for(let i in select_history) select_history[i] = null;
   cur_que_index = 0;
   show_que();
 }
+
 
 let cur_que_index = 0;
 function show_que() {
@@ -40,10 +43,17 @@ function show_que() {
 }
 
 let timeout = null;
-function set_timeout({score, sec}) {
+function set_timeout({tag, score, sec, cnt}) {
   timeout = setTimeout(() => {
-    select_opt(score);
+    show_silence();
   }, 1e3 * sec);
+  function show_silence() {
+    find(`[page="que_card"] .que_box`).innerText = cnt;
+    find(`[page="que_card"] .opts`).innerHTML = "";
+    timeout = setTimeout(() => {
+      select_opt(tag, score);
+    }, 3e3);
+  }
 }
 
 function update_num_bar() {
@@ -58,11 +68,12 @@ function update_opts(opts) {
   opts_el.innerHTML = "";
   opts.forEach(opt => {
     let opt_btn = new_el_to_el(opts_el, "button", opt.cnt);
-    opt_btn.addEventListener("click", () => select_opt(opt.score));
+    opt_btn.addEventListener("click", () => select_opt(opt.tag, opt.score));
   });
 }
 
-function select_opt(score) {
+function select_opt(tag, score) {
+  select_history[cur_que_index] = tag || null;
   for(let key in score) {
     total_score[key] += score[key];
   }
@@ -87,50 +98,88 @@ function show_result() {
 }
 
 function get_result() {
-  let target_result = [];
-
-  /* 體質 */
-  let {一般, 甜點, 銀器} = total_score;
-  let max_體質 = Math.max(甜點, 銀器, 一般);
-  if(甜點 == max_體質) target_result.push(...results.filter(r => r.type == "甜點"));
-  if(銀器 == max_體質) target_result.push(...results.filter(r => r.type == "銀器"));
-  if(一般 == max_體質) target_result.push(...results.filter(r => r.type == "一般"));
-
-  /* 排序 */
   let max = get_max();
-  let result_list = [];
-  target_result.forEach(r_data => {
-    let near = 0, near2 = 0;
-    let tag = [];
-    if(max.A.includes(r_data.A)) { near++; near2+=4; tag.push("A"); }
-    if(max.B.includes(r_data.B)) { near++; near2+=3; tag.push("B"); }
-    if(max.C.includes(r_data.C)) { near++; near2+=2; tag.push("C"); }
-    if(max.D.includes(r_data.D)) { near++; near2+=1; tag.push("D"); }
-    if(!result_list.length || result_list[0].near == near) {
-      result_list.push({name: r_data.name, near, near2});
-    }
-    else if(result_list[0].near < near) {
-      result_list = [{name: r_data.name, near, near2}];
-    }
+  let find_target = max.type + max.benefit + max.value;
+  let find_results = results.filter(r_data => {
+    return r_data.type + r_data.benefit + r_data.value == find_target;
   });
-  if(result_list.length == 1) return result_list[0].name;
-  result_list.sort((rA, rB) => rB.near2 - rA.near2);
-  return result_list[0].name;
+  if(find_results.length == 0) return results[results.length - 1].name;
+  if(find_results.length == 1) return find_results[0].name;
+  
+  find_results.sort((r_data_a, r_data_b) => {
+    let sa = get_s(r_data_a);
+    let sb = get_s(r_data_b);
+    return sb - sa;
+  });
+  return find_results[0].name;
+  function get_s(r_data) {
+    let s = 0;
+    if(max.trait[0] == r_data.trait) s += 5;
+    else if(max.trait.includes(r_data.trait)) s += 3;
+    if(max.fear[0] == r_data.fear) s += 2;
+    else if(max.fear.includes(r_data.fear)) s += 1;
+    return s;
+  }
 }
 
 function get_max() {
-  let max = {
-    A: ["精神", "心情", "身體"],
-    B: ["利己", "利他"],
-    C: ["聰明", "善良", "寬容", "誠實"],
-    D: ["冷場", "忽視", "批評", "虛假"],
+  let max_set = {
+    type: new Set(["甜點", "銀器", "一般"]),
+    benefit: new Set(["利己", "利他"]),
+    value: new Set(["精神", "心情", "身體"]),
+    trait: new Set(["聰明", "善良", "寬容", "誠實"]),
+    fear: new Set(["冷場", "忽視", "批評", "虛假"]),
   };
-  for(let key in max) {
-    let max_score = 0;
-    max[key].forEach(name => {
-      max_score = Math.max(max_score, total_score[name]);
+  for(let key in max_set) {
+    let set = max_set[key];
+    let max_score = Math.max(...[...set].map(tag => total_score[tag]));
+    set.forEach(tag => {
+      if(total_score[tag] != max_score) set.delete(tag);
     });
-    max[key] = max[key].filter(name => total_score[name] == max_score);
   }
+  let max = {};
+
+  /* 體質 */
+  if(max_set.type.size > 1) max_set.type.delete("一般");
+  if(max_set.type.size > 1) {
+    if(max_set.trait.has("誠實") || max_set.fear.has("虛假")) max_set.type.delete("甜點");
+    else max_set.type.delete("銀器");
+  }
+  max.type = [...max_set.type][0];
+
+  /* 利益 */
+  if(max_set.benefit.size > 1) {
+    if(select_history[3] == "利他" || select_history[8] == "利他") {
+      max_set.benefit.delete("利己");
+    }
+    else max_set.benefit.delete("利他");
+  }
+  max.benefit = [...max_set.benefit][0];
+
+  /* 看重 */
+  if(max_set.value.size > 1) {
+    if(max_set.value.has(select_history[7])) {
+      max.value = select_history[7];
+    }
+    else if(max_set.value.has("精神")) max.value = "精神";
+    else if(max_set.value.has("心情")) max.value = "心情";
+    else max.value = "身體";
+  }
+  else max.value = [...max_set.value][0];
+
+  /* 注重特質 */
+  max.trait = [...max_set.trait];
+  if(max.trait.includes(select_history[5]) && select_history[5]) {
+    max.trait = max.trait.filter(v => v != select_history[5]);
+    max.trait.unshift(select_history[5]);
+  }
+
+  /* 害怕情況 */
+  max.fear = [...max_set.fear];
+  if(max.fear.includes(select_history[2]) && select_history[2]) {
+    max.fear = max.fear.filter(v => v != select_history[2]);
+    max.fear.unshift(select_history[2]);
+  }
+
   return max;
 }
