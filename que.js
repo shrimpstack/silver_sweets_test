@@ -8,7 +8,7 @@ const que_list = [
       {score: {甜點: 1}, cnt: "我需要想想"},
       {score: {一般: 2}, cnt: "為什麼？"},
     ],
-    time_opt: {score: {銀器: 2}, sec: 14, cnt: "猶豫或沉默，很特別的決定。"},
+    time_opt: {score: {銀器: 2}, sec: 9, cnt: "猶豫或沉默，很特別的決定。"},
   },
   {
     style: "que_a",
